@@ -29,6 +29,7 @@ import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity implements LoaderCallbacks<List<Earthquake>> {
 
+    private static final String LOG_TAG = EarthquakeActivity.class.getSimpleName();
     private EarthquakeAdapter earthquakeAdapter;
 
     @Override
@@ -54,7 +55,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
                 Intent intent = new Intent(Intent.ACTION_VIEW, parse);
                 startActivity(intent);
             } catch (NullPointerException npe) {
-                Log.e("TAG", npe.getMessage());
+                Log.e(LOG_TAG, npe.getMessage());
             }
         });
     }
@@ -62,11 +63,13 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
+        Log.e(LOG_TAG, "onCreateLoader passed");
         return new EarthquakeLoader(this, Constants.USGS_REQUEST_URL);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> data) {
+        Log.e(LOG_TAG, "onLoadFinished passed");
         if (data != null && !data.isEmpty()) {
             earthquakeAdapter.clear();
             earthquakeAdapter.addAll(data);
@@ -75,6 +78,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public void onLoaderReset(Loader<List<Earthquake>> loader) {
+        Log.e(LOG_TAG, "onLoaderReset passed");
         earthquakeAdapter.clear();
     }
 
